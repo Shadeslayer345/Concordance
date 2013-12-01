@@ -44,11 +44,12 @@ def index(iL, oL, r, c): # iL = Input List, oL = Output List, r = Row, c = Colum
 	column = c # Column is the parameter that will iterate through the each index of the row index value in the paragraph matrix
 	test = PMat2[row][column] # Test is the value which will be compared to each word in the text file by means of the paragraph matrix
 	glossary = oL # Glossary is the name of th list that we will output
- 	print "The test value at row %i is %s" %(row,test)
- 	if (row < len(PMat2)-2): # Part of our exit condition when the value of the row variable has reached the length of the paragraph matrix - 2 we are at the end of the list and should be finished
+ 	done = False
+ 	if not done: #(row <= len(PMat2)-2): # Part of our exit condition when the value of the row variable has reached the length of the paragraph matrix - 2 we are at the end of the list and should be finished
+		#print "I'm in the column value is %i and the number of columns is %i" %(column, len(PMat2[row]))
 		# We use the length of the paragraph matrix - 2 because, with zero based counting we have one less index than the length but also when 
-		# dealing with our method of parsing the file we split at the period. So the last sentence is not truly the last index, the last index is blank
-		for sentences in xrange(len(PMat2)): # Labeled as such for ease of reading. We will iterate throught each "sentence" in the paragraph as the sentences are each one index in the paragraph matrix (see line 47-48 for why we subtract 2)
+		# dealing with our method ofparsing the file we split at the period. So the last sentence is not truly the last index, the last index is blank
+		for sentences in xrange(len(PMat2)-1): # Labeled as such for ease of reading. We will iterate throught each "sentence" in the paragraph as the sentences are each one index in the paragraph matrix (see line 47-48 for why we subtract 2)
 			for words in xrange(len(PMat2[sentences])): # Labeled as such for eas of reading. We will iterate through each "word" in the "sentence" of the "paragraph"  as the words are indicies within the indicies of the paragraph matrix
 			# We have sentences as the index of paragraph because each sentence has a difference length 
 				if test == PMat2[sentences][words]: # Our test for equality
@@ -60,10 +61,12 @@ def index(iL, oL, r, c): # iL = Input List, oL = Output List, r = Row, c = Colum
 		entry = "%s {%d: %s}" %(removePunctFrom(test), occurrence, citation) # Formating of the final list, here we will have the word we are looking for, the total amount of times it appears and in which sententence it appears
 		glossary.append(entry) # Labeled as such for ease of reading. We will add an entry to the glossary of words we have
 		if column == len(PMat2[row])-1: # If true we have tested every word in the sentence and added its entry to the glossary
-			index(PMat2, glossary, row+1, 0) # We will then move to the next sentence for testing
+			if row == len(PMat2)-2:
+				done = True # Will exit the code since we have tested the last word in the last sentence.
+			else:	
+				index(PMat2, glossary, row+1, 0) # We will then move to the next sentence for testing	
 		else: # If the condition in Line 60 is false we have not finished every word in the sentence
 			index(PMat2, glossary, row, column+1) # Continues interating throught the same sentence
-
 	return glossary # Returns the output list
 ''' Final Main Code To Concordanate The File ''' 	
 def concordanate(iT): # iT = Input Text

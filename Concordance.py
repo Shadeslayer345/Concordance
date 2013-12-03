@@ -4,7 +4,7 @@ writeout = open("Concordance.txt", "w")
 textIN = readIn.read()
 ''' Function To Remove Punctuation From Values To Be Entered In The Concordance '''
 def removePunctFrom(iS): # iS = Input String
-	if iS.endswith(",") or iS.endswith(";") or iS.endswith(":") or iS.endswith('"') or iS.endswith("'") or iS.startswith("'") or iS.startswith('"') or iS.endswith("!"): # All test cases concerning punctuation that should be removed before adding the value to the concordance
+	if iS.endswith(",") or iS.endswith(";") or iS.endswith(":") or iS.endswith('"') or iS.endswith("'") or iS.startswith("'") or iS.startswith('"'): # All test cases concerning punctuation that should be removed before adding the value to the concordance
 		newS = iS[0:len(iS)-1] # Leaving the word with the punctuation intact, we tell the program to ignore the last value (i.e. the end punctuation)
 	else:
 		newS = iS # If no puncuation exists, leave the value alone
@@ -20,6 +20,7 @@ def displayList(iL): # iL = Input List
 def createPMat(iT): # iL = Input Text
 	iT = iT.lower() # Sets all words to lower case values
 	sentenceList = iT.split(".") # This parses the iT into sentences which are assumed to be separated by periods.
+	sentenceList = iT.split("!")
 	wordList = [] # This List's indicies will hold the words from each sentence.
 	PMat1 = [] # This List will act as a Matrix by holding the wordList for each sentence as the row index and the indicies of each wordList as the column index
 	''' Function To Place Each Separate Word Into An Index In WordList Then Add WordList As An Index Into The Paragraph Matrix '''

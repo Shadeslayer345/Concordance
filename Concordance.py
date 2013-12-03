@@ -1,5 +1,5 @@
-fileName = "R.txt"#raw_input("Enter a file name here ===> ")
-readIn = open(fileName, "r")
+fileName = raw_input("Enter a file name here ===> ")
+readIn = open(fileName+".txt", "r")
 writeout = open("Concordance.txt", "w")
 textIN = readIn.read()
 ''' Function To Remove Punctuation From Values To Be Entered In The Concordance '''
@@ -34,9 +34,8 @@ def deleteStartSpace(iL): # iL = Input List
 		if iL[x][0] == '': # Test the first value of each index in the matrix(i.e. the first part of the sentence) to see if a space exist
 			del iL[x][0] # If a space is found we remove that value
 	return iL # Returns the matrix without spaces at the beginning of each sentence
-
 ''' Recursive Function To Create A List With Concordances Of Each Word '''
-def index(iL, oL, r, c): # iL = Input List, oL = Output List, r = Row, c = Column
+def index(iL, oL, r=0, c=0): # iL = Input List, oL = Output List, r = Row, c = Column
 	PMat2 = iL # Naming the iL argument
 	occurrence = 0 # Occurence is an integer value representing the total occurence of each word in the File
 	citation = "" # Citation is a string value representing where each word occures, based on sentence
@@ -45,8 +44,7 @@ def index(iL, oL, r, c): # iL = Input List, oL = Output List, r = Row, c = Colum
 	test = PMat2[row][column] # Test is the value which will be compared to each word in the text file by means of the paragraph matrix
 	glossary = oL # Glossary is the name of th list that we will output
  	done = False
- 	if not done: #(row <= len(PMat2)-2): # Part of our exit condition when the value of the row variable has reached the length of the paragraph matrix - 2 we are at the end of the list and should be finished
-		#print "I'm in the column value is %i and the number of columns is %i" %(column, len(PMat2[row]))
+ 	if not done: # Part of our exit condition when the value of the row variable has reached the length of the paragraph matrix - 2 we are at the end of the list and should be finished, this will reflect done being True and exiting the loop
 		# We use the length of the paragraph matrix - 2 because, with zero based counting we have one less index than the length but also when 
 		# dealing with our method ofparsing the file we split at the period. So the last sentence is not truly the last index, the last index is blank
 		for sentences in xrange(len(PMat2)-1): # Labeled as such for ease of reading. We will iterate throught each "sentence" in the paragraph as the sentences are each one index in the paragraph matrix (see line 47-48 for why we subtract 2)
@@ -74,7 +72,7 @@ def concordanate(iT): # iT = Input Text
 	Paragraph = createPMat(iT) # This call will create a matrix using the input file
 	Concordance = [] # The Final List of all words along with total occurences followed by citations of each occurence
 	''' Concordination of each word in the File into a List'''
-	Concordance = index(Paragraph, Concordance, 0, 0) # Here we assign the value of Concordance to the returned value from the dictionate
+	Concordance = index(Paragraph, Concordance) # Here we assign the value of Concordance to the returned value from the dictionate
 	''' Remove Duplicate Values In The List '''
 	Concordance = removeDupes(Concordance)
 	return Concordance
